@@ -1,0 +1,54 @@
+1. 完成Complex类的成员函数+-*/操作符重载。(任选一种)
+复数A（5+5i） 复数B（1+i）
+(1).友元函数法:
+friend  Complex operator+(const Complex & c1, const Complex & c2)
+{
+//……
+return Complex(int real, int imag);
+}
+(2).全局函数法:
+Complex operator+(const Complex & c1, const Complex & c2)
+{
+//….
+}
+(3).类的成员函数法:
+Complex Complex::operator+(const Complex & c1)
+{
+//…
+}
+class Complex
+{
+private:
+int _real;
+int _imag;
+public:
+Complex();
+Complex(int real, int imag);
+print() //打印复数
+{
+cout<<“复数为：”<<_real<<“+”<<_imag<<“i”;
+}
+//重载运算符函数
+friend  Complex operator+(const Complex & c1, const Complex & c2);
+};
+int main()
+{
+Complex c1(1,1);
+Complex c2(2,2);
+(c1+c2).print();
+(c1-c2).print();
+}
+2. 完成对Complex对象的>>输入和输出<<操作符重载。
+int main()
+{
+Complex c1;
+Complex c2;
+cin>>c1;
+cin>>c2;
+cout<<c1;
+cout<<c2;
+}
+3、继续完成任务一：Person类和Date类
+要求：
+1)输出运算符和输入运算符完成测试
+2）添加Person和Date类的赋值运算符重载；

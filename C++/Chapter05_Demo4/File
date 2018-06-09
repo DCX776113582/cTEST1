@@ -1,0 +1,113 @@
+§1 标准
+§2 string类
+    自定义String类
+    系统string类
+§3 模板
+模板：通用的模板：函数模板、类模板
+    1)函数模板：C++提供了一种方式来定义一种通用的未指定参数类型的函数，当函数被调用的时候来指定参数类型。这个通用的函数叫作函数模板。
+    模板函数：用函数模板来操作具体类型的函数称为模板函数。
+    函数模板的使用：就是将函数模板的实例化为具体的函数。函数模板的实例化由编译器来完成。编译系统根据函数调用的实际参数类型自动完成函数模板的实例化。
+    总结：函数模板提供了一类函数的抽象，代表了具有相同功能的一类函数；模板函数是函数模板具体的实例化，表示一个具体的函数。函数模板，将其虚拟抽象实例化成具体函数，即产生模板函数；
+    2)类模板：建立一个通用类，其数据成员，成员函数的返回类型和形参类型不具体指定，而是用一个虚拟的类型来代表。使用类模版定义对象时，系统会根据实参的类型来取代类模版中虚拟类型，从而实例化出模板类和该模版类的对象来实现不同类的功能。
+    模板类：模板类的每个成员函数都是模板函数。每个成员函数前面都要加上模板声明，并且在类名和作用域符之间要加上<模板名>
+§4 标准模板库（STL）
+    1）Vector容器
+    特点：可以在任意位置添加、删除、修改；元素可以相同；可以使用stack相关特性
+    a:创建容器对象:创建同时初始化容器中的元素
+    b:添加数据：insert();push_back、元素下标v[pos] = 元素.
+    c:修改数据：assign();/v[pos] = 元素/v.at() = 元素
+    d:查找数据：find();
+    e:删除数据：erase();
+    f:清空容器：clear();
+    g:入栈数据：push_back();
+    h:出栈数据：pop_back();
+    i:访问数据：迭代器+循环;v.front();v.back();
+    j:容器的信息：size()/capacity()/max_size()/empty();
+    2）iterator迭代器，像指针
+    容器用迭代器，对元素进行枚举，迭代器指向容器的一个元素。
+    容器常用的2个成员函数（不是迭代器函数），返回值就是迭代器对象。
+    begin( )： 	返回的迭代器，指向容器中的第一个元素。
+    end()：		返回的迭代器，指向最后一个元素的下一个位置。
+    begin()函数返回一个iterator（或者是const_iterator, 取决于容器是否是const容器），这个迭代器当前指向容器中的第一个元素。
+    end()函数返回一个iterator（或者是const_iterator,取决于容器是否是const容器），这个迭代器指向容器最后一个元素的下一个位置。
+    rbegin()函数返回一个reverse_iterator(或者const reverse_iterator，取决于容器是否是const容器)，这个反转迭代器指向容器的最后一个元素。
+    rend()函数返回一个reverse_iterator（或者是const reverse_iterator，取决于容器是否是const容器），这个反转迭代器指向第一个元素的前一个位置。
+    3）list容器
+    //给类型取别名为IntList
+    typedef list<int> IntList;
+    list<int> c0; //空链表
+    list<int> c1(3,0); //建一个含三个默认值是0的元素的链表
+    list<int> c4(c1); //建一个c2的copy链表
+    list<int> c5(c1.begin(),c1.end());//c5含c1一个区域的元素[_First, _Last)。
+    c1.swap(c2);//将c1和c2交换
+    swap(c1,c2);//将c1和c2交换
+    c1.merge(c2);//合并2个有序的链表并使之有序,从新放到c1里,释放c2。
+    c1.merge(c2,moop);//合并2个有序的链表并使之按照自定义规则排序之后从新放到c1中,释放c2。
+    c1.splice(c1.begin(),c2);//将c2连接在c1的beg位置,释放c2
+    c1.splice(c1.begin(),c4,c4.begin());//将c4的beg位置的元素连接到c1的beg位置，并且在c4中施放掉beg位置的元素
+    c1.splice(c1.begin(),c2,c2.begin(),c2.end());//将c2的[beg,end)位置的元素连接到c1的beg位置并且释放c2的[beg,end)位置的元素
+    c1.remove(2);//删除链表中匹配num的元素。
+    c1.reverse();//反转链表
+    c1.sort();//将链表排序，默认升序
+    c1.sort(moop);//将链表排序，降序,自定义函数
+    c1.unique();//删除相同的元素;相邻的重复数据，只保留一个
+    c1.remove_if(myFun);//删除条件满足的元素,参数为自定义的
+    c1.begin();//返回指向链表第一个元素的迭代器。
+    cout<<"first:"<<c1.front()<<endl;
+    cout<<"last:"<<c1.back()<<endl;
+    c1.end();//返回指向链表最后一个元素之后的迭代器。
+    c1.rbegin();//返回逆向链表的第一个元素,即c链表的最后一个数据。
+    c1.rend();//返回逆向链表的最后一个元素的下一个位置,即c链表的第一个数据再往前的位置。
+    c1.assign(2,2);//将n个num拷贝赋值给链表c。
+    c1.assign(a,a+Size);// 将[beg,end]区间的元素拷贝赋值给链表c。
+    c1.front();//返回链表c的第一个元素。
+    c1.back();//返回链表c的最后一个元素。
+    c1.empty();//判断链表是否为空。
+    cout<<c1.size()<<endl;//返回链表c中实际元素的个数。
+    cout<<c1.max_size()<<endl;//返回链表c可能容纳的最大元素数量。
+    c1.clear();//清除链表c中的所有元素。
+    c1.insert(c2.begin(),13);//在pos位置插入元素num。
+    c1.insert(c2.begin(),2,3);//在pos位置插入n个元素num。
+    c1.insert(c1.end(),c4.begin(),c4.end());//在pos位置插入区间为[beg,end)
+    c1.erase(--c.end());//删除pos位置的元素。
+    c1.push_back(123);//在末尾增加一个元素。
+    c1.pop_back();//删除末尾的元素。
+    c1.push_front(323);//在开始位置增加一个元素。
+    c1.pop_front();//删除第一个元素。
+    c1.resize(10);//从新定义链表的长度,超出原始长度部分用0代替,小于原始部分删除。
+    c1.resize(5,10);//从新定义链表的长度,超出原始长度部分用num代替。
+    4）set集合
+set是STL中一种标准关联容器。它底层使用平衡的搜索树——红黑树实现，插入删除操作时仅仅需要指针操作节点即可完成，不涉及到内存移动和拷贝，所以效率比较高。set，顾名思义是“集合”的意思，在set中元素都是唯一的，而且默认情况下会对元素自动进行升序排列，支持集合的交(set_intersection),差(set_difference) 并(set_union)，对称差(set_symmetric_difference) 等一些集合上的操作，如果需要集合中的元素允许重复那么可以使用multiset。
+
+    1、有唯一的key-value （key与value一致）
+    2、添加元素之前先判断是否有重复的key存在，有则不添加；没有，与其他的key进行比较,然后从小到大排列。
+    5）map映射
+typedef map<int, string> Map1;
+typedef pair<int, string> Map;
+Map m1(1,"kuuga");//pair对象
+Map1 M1;//创建空容器M1
+M1.insert(m1);//给容器添加元素：pair
+//创建并初始化容器M2
+Map1 M2{{1,"ultraman"},{2,"Seven"},{3,"jack"}};
+//创建并初始化容器M3
+Map1 M3{m1,m2,Map(3,"ultraman"),Map(4,"Seven")};
+    6）容器总结
+顺序容器（value）&关联容器（key-value）的区别：
+1、元素存储的顺序不同
+顺序容器：按照数据的插入位置存储。
+关联容器：按键key本身的值大小来排列（和插入value的顺序无关）
+2、存取元素的方式不同
+顺序容器：通过元素在容器里的位置（如：下标）存取；
+关联容器：通过键（key）存取元素（不关心位置）。
+（set集合的元素本身就相当于key）
+注意：
+在使用一个容器类的时候，需要包含相对应的STL标准库头文件
+<vector>，<list>, <deque>, <map>(map和multimap都定义在这里面),<set>（set和multiset容器都定义在这里）。
+以下为所有容器都实现的成员函数：
+empty( ) 、max_size( ) 、size( ) 、erase( ) 、clear( )
+capacity( ):只有在vector和string类中有，其他容器中没有
+每一个容器类都有一个默认的构造函数，拷贝构造函数，析构函数，赋值运算符重载函数。empty()函数返回一个bool值，max_size()函数返回容器最大能申请的空间大小。capacity()函数返回容器当前申请的空间大小，size()函数返回当前容器中元素的个数。容器类还有erase()函数来从容器中删除一个或者多个元素，clear()函数删除容器中所有的元素。除此之外还定义了一些比较操作。
+Algorithms：
+STL还包含许多“独立”的功能（算法algorithms），可用于操作容器。
+独立函数，不属于任何容器，不是容器的成员函数。可以操作多种容器类型。泛型(generic)算法：泛型类是引用类型，是堆对象，主要是引入了类型参数这个概念。
+§5 C++STL标准的STACK介绍

@@ -1,0 +1,133 @@
+//
+//  test.h
+//  Chapter05_Demo1
+//
+//  Created by mac on 18/3/2.
+//  Copyright (c) 2018年 duanchuanxin. All rights reserved.
+//
+
+#ifndef Chapter05_Demo1_test_h
+#define Chapter05_Demo1_test_h
+
+#include <iostream>//使用系统定义命名空间
+using namespace std;
+#include <string>
+//自定义名字空间:独立定义在.h文件，没有对应的.cpp文件，否则链接错误
+namespace My_space {
+    int rider=78;
+    const int size = 20;
+    void print()
+    {
+        cout<<"My_space::print  "<<rider<<"   "<<size<<endl;
+    }
+    class Base{
+    public:
+        virtual void print() = 0;
+    };
+    class Derived:public Base{
+    public:
+        void print()
+        {
+            cout<<"My_space::Derived:"<<endl;
+        }
+    };
+    class String //用户自定义类
+    {
+    private:
+        int len; //有效字符个数
+        char * rep; //操作存储字符型数组中的每个元素的一个指针变量
+    public:
+        String() : len(0)
+        {
+            rep = new char[len+1];
+            strcpy(rep, "");
+        }
+        //拷贝构造函数的参数传递不可以是传值，否则会用已有的对象创建新对象，从而重复调用拷贝构造函数，程序造成死循环。
+        String(const String& str) : len(str.len), rep(new char[str.len + 1])
+        {
+            strcpy(rep, str.rep);
+        }
+        String(const char * s)
+        {
+            if (!s)            {
+                len = 0;
+                s = new char[len + 1];
+                rep = const_cast<char*>(s);
+                strcpy(rep, "");
+            }
+            else
+            {
+                len = strlen(s);
+                rep = new char[len + 1];
+                strcpy(rep, s);
+            }
+        }
+//        const char * p = "asdasda";
+//        String s(p);
+        ~String( )
+        {
+            if(rep){
+                delete [] rep;
+                rep = NULL;
+            }
+        }	
+        const String& operator=(const String& s)
+        {
+            if(this != &s)
+            {
+                this->len = s.len;
+                delete [] this->rep;
+                this->rep = new char[strlen(s.rep)+1];
+                strcpy(this->rep, s.rep);
+            }
+            return *this;
+        }
+        friend  ostream& operator<<(ostream& out, const String& s);
+        friend void print(const String& s);
+    };
+    ostream& operator<<(ostream& out, const String& s)
+    {
+        out<<s.rep<<endl;
+        return out;
+    }
+    void print(const String& s)
+    {
+        cout << s.rep <<endl;
+        return;
+    }
+    //内部名字空间
+    namespace inner{
+        int rider = 100;
+        const int size = 200;
+        void print()
+        {
+            cout<<"inner::print "<<rider<<"   "<<size<<endl;
+        }
+        class Base{
+        public:
+            virtual void print() = 0;
+        };
+        class Derived:public Base{
+        public:
+            void print()
+            {
+                cout<<"inner::Derived Action:"<<endl;
+            }
+        };
+    };
+};
+
+//extern int rider;
+//extern const int size;
+extern void print();//全局函数
+//class Base{
+//    virtual void print() = 0;
+//};
+//class Derived:public Base{
+//    void print()
+//    {
+//        cout<<"Derived:"<<endl;
+//    }
+//};
+
+#endif

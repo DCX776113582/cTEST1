@@ -1,0 +1,68 @@
+一、简单项目编程（多态特性的设计与实现）
+假设我们有一个飞机的基类（Plane）。然后从Plane派生出两个子类：直升机（Copter）和喷气式飞机（Jet）。完成一个飞机的控制系统（PControl）：
+
+1、已知条件：（80分）
+创建飞机类（基类）：作为抽象基类（10分）
+属性：型号（char* fModal），编码（char* fNo）,驾驶员（char* fName）
+行为：构造飞机； 起飞（fly），着陆（land），查询型号（modal），打印飞机信息（printInfo）均为纯虚函数
+其他行为：三大件
+
+创建直升机类（派生类）（20分）
+属性：
+行为：构造直升机，起飞（fly），着陆（land），查询型号（modal），打印飞机信息（printInfo）
+其他行为：三大件
+
+创建喷气式飞机类（派生类）（20分）
+属性：
+行为：构造喷气式飞机，起飞（fly），着陆（land），查询型号（modal），打印飞机信息（printInfo）
+其他行为：三大件
+
+创建飞机控制类（飞机的容器类）（30分）
+属性：指向飞机的飞机类指针（Plane** p），飞机个数（int num），飞机索引（int index）
+行为：构造飞机控制类，三大件实现，添加飞机（void addPlane(Plan& p)）功能，删除飞机（Plane& destroyPlane()）功能
+以及如下普通功能
+a、用一个成员函数play_print(Plane& p),它负责打印传递给它的飞机的信息。
+a、用一个成员函数plane_fly(Plane& p),它负责让传递给它的飞机起飞的方式。
+b、用一个成员函数plane_land(Plane& p),它负责让传递给它的飞机着陆方式。
+c、用一个成员函数plane_modal(Plane& p),它负责让传递给它的飞机查询型号。
+
+2、写一个测试函数，完成飞机的控制系统测试：（20分）
+要求：a、创建飞机控制类对象；创建飞机类对象（使用动态内存）
+b、通过飞机控制类对象添加相关飞机对象（至少两个）
+c、飞机控制类中的飞机对象的两个指针分别指向：1、直升机对象；2、喷气式飞机对象；
+d、通过飞机控制类对象分别调用play_print、plane_fly、plane_land、plane_modal函数，实现飞机的全部操作功能
+e、整体设计避免内存泄漏以及相关bug。
+
+
+测试功能参考代码（示例）： //每个功能均要求测试通过，不能有内存问题以及崩溃问题。
+void test_PControl()
+{
+//创建飞机控制器对象
+PControl ptr;
+
+//创建飞机对象
+Copter * copter = new Copter(….);
+Jet * jet = new Jet(….);
+…
+
+//给控制器添加所控制的飞机
+ptr.add(*copter);
+ptr.add(*jet);
+…
+
+//飞机的功能实现
+for(int i=0; i<ptr.getNum();++i)
+{
+ptr. play_print(*ptr.p[i]);
+ptr. plane_fly(*ptr.p[i]);
+…
+}
+
+//释放飞机
+for(int i=0; i<ptr.getNum();++i)
+{
+Plane& p = destroyPlane();
+delete &p;
+p = NULL;
+}
+}
